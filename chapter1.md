@@ -31,9 +31,54 @@ When setting up networking in AWS, you'll typically go through a few essential s
 ## The Default VPC
 The default Virtual Private Cloud (VPC) is a pre-configured networking environment automatically provisioned by AWS in each region. It provides a ready-to-use infrastructure that enables users to deploy applications and services immediately without the need for initial network configuration. The default VPC includes pre-assigned IP address ranges, public subnets, route tables, security groups, and an internet gateway, offering a functional baseline for general use. While it is designed to facilitate quick deployment, all components of the default VPC can be customized to meet specific network and security requirements.
 
-**image1**
+![Image6a1](./Images/image6a1.PNG) So this is the first page to see when click on 'Your VPC'. After that make sure to check the location is in the right place as you see below:
+
+![Image6a1](./Images/image6a2.PNG)
 
 ## Creating a new VPC
 To gain a clear understanding of the individual components involved in building a Virtual Private Cloud (VPC), we begin by selecting the "VPC only" option. This approach enables a manual setup, allowing us to configure each element step by step. In this configuration, we name the VPC "TGCD1-vpc" and assign it the IPv4 CIDR block "10.0.0.0/16", which serves as the primary address range for all resources within the VPC. This block offers a wide range of private IP addresses suitable for scalable deployments.
 
 AWS also provides the option to associate a secondary CIDR block with a VPC, such as "10.64.0.0/16". This feature is particularly useful in scenarios where the existing IP range is insufficient or when connecting to another VPC with overlapping IP space. In such cases, adding a secondary block allows continued growth and enables VPC peering without reconfiguring the entire network. This method offers both flexibility and efficiency in handling complex networking requirements. See this blog post on how a secondary CIDR block is being used in an overlapping IP scenario: [https://aws.amazon.com/blogs/networking-and-content-delivery/how-to-solve-private-ip-exhaustion-with-private-nat-solution/](https://aws.amazon.com/blogs/networking-and-content-delivery/how-to-solve-private-ip-exhaustion-with-private-nat-solution/)
+
+![Image6a1](./Images/image6a3.PNG) ![Image6a1](./Images/image6a4.PNG)
+This image is seen after clicking on the 'Create VPC'. We can add mote tag, but here we left it as default, after which we click on `CREATE VPC` for tge last time. As soon as the VPC is created, it's assigned with a vpc-id and there's a route table created that serves as the main route table - rtb-034f3b111e7c692bc in below image: 
+![Image6a1](./Images/image6a5.PNG)
+The next thing to do is the subnet as the VPC has been created succefully. 
+
+## Subnets 
+Subnets are subdivisions within a Virtual Private Cloud (VPC) that allow for better organization and management of cloud resources. They function like designated sections within an office building, with each section representing a specific department. This segmentation helps structure the network efficiently, enabling more precise control over resource placement, accessibility, and traffic flow.
+![Image6a1](./Images/image611.PNG)
+Now we'er going to create a subnet, step by step. 
+Go to VPC > Subnets > Create Subnets and we select the VPC that we've created previously - the TGCD1-vpc or anything you tagged your VPC
+
+![Image6a1](./Images/image6b1.PNG)
+![Image6a1](./Images/image6b2.PNG)
+We enter the subnet setting details, click on add new subnet and the click **Create subnet**. We always make sure not to forget choosing a zone, if not, AWs would randomly give us any zone.
+![Image6a1](./Images/image6b3.PNG)
+After creating the subnets, they should now be visible in the AWS Management Console under the specified VPC. If any subnets are missing, they can be manually added by creating a new subnet and associating it with the intended VPC. At this stage, it is possible to launch EC2 instances within the VPC by selecting any of the configured subnets. However, it is important to note that although a public subnet has been designated, it currently does not have Internet access. Upon inspecting the route configuration for the public subnet, it is evident that it is still using the main route table, which only includes a local route. There is no default route (0.0.0.0/0) configured to direct traffic to an internet gateway, and as such, external connectivity is not yet established.
+![Image6a1](./Images/image6b4.PNG) This image shows the subnet has been creayed successfully.
+
+## Understanding Public and Private Subnets in AWS VPC
+In the world of AWS VPC, think of subnets as individual plots in your hectre of land (VPC). Some of these plots (subnets) have direct road access (internet access) - these are public subnets. Others are more private, tucked away without direct road access - these are private subnets.
+
+### Creating a Public Subnet
+Creating a public subnet is like creating a plot of land with direct road (internet) access. Here's how you do it:
+
+- Go to the AWS VPC page.
+- Find 'Subnets', click on it, then click 'Create subnet'.
+- Give this new plot a name, select the big plot (VPC) you want to divide, and leave the IP settings as they are.
+- Attach an Internet Gateway to this subnet to provide the road (internet) access.
+- Update the route table associated with this subnet to allow traffic to flow to and from the internet.
+
+### Creating a Private Subnet
+Creating a private subnet is like creating a secluded plot without direct road (internet) access. Here's how you do it:
+
+- Go to the AWS VPC page.
+- Find 'Subnets', click on it, then click 'Create subnet'.
+- Give this new plot a name, select the big plot (VPC) you want to divide, and leave the IP settings as they are.
+- Don't attach an Internet Gateway to this subnet, keeping it secluded.
+- The route table for this subnet doesn't allow direct traffic to and from the internet.
+## Working with Public and Private Subnets
+Public subnets are great for resources that need to connect to the internet, like web servers. Private subnets are great for resources that you don't want to expose to the internet, like databases.
+
+Understanding public and private subnets helps you to organize and protect your AWS resources better. Always remember, use public subnets for resources that need internet access and private subnets for resources that you want to keep private.
