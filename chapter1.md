@@ -56,10 +56,10 @@ Go to VPC > Subnets > Create Subnets and we select the VPC that we've created pr
 We enter the subnet setting details, click on add new subnet and the click **Create subnet**. We always make sure not to forget choosing a zone, if not, AWs would randomly give us any zone.
 ![Image6a1](./Images/image6b3.PNG)
 After creating the subnets, they should now be visible in the AWS Management Console under the specified VPC. If any subnets are missing, they can be manually added by creating a new subnet and associating it with the intended VPC. At this stage, it is possible to launch EC2 instances within the VPC by selecting any of the configured subnets. However, it is important to note that although a public subnet has been designated, it currently does not have Internet access. Upon inspecting the route configuration for the public subnet, it is evident that it is still using the main route table, which only includes a local route. There is no default route (0.0.0.0/0) configured to direct traffic to an internet gateway, and as such, external connectivity is not yet established.
-![Image6a1](./Images/image6b4.PNG) This image shows the subnet has been creayed successfully.
+![Image6a1](./Images/image6b4.PNG) This image shows the subnet has been created successfully and as you can see, we have two private and two public.
 
 ## Understanding Public and Private Subnets in AWS VPC
-In the world of AWS VPC, think of subnets as individual plots in your hectre of land (VPC). Some of these plots (subnets) have direct road access (internet access) - these are public subnets. Others are more private, tucked away without direct road access - these are private subnets.
+In the world of AWS VPC, think of subnets as individual plots in your hectre of land (VPC). Some of these plots (subnets) have direct road access (internet access) - these are public subnets. Others are more private, tucked away without direct road access - these are private subnets. Now let's see how to cteate both subnets
 
 ### Creating a Public Subnet
 Creating a public subnet is like creating a plot of land with direct road (internet) access. Here's how you do it:
@@ -79,6 +79,8 @@ Creating a private subnet is like creating a secluded plot without direct road (
 - Don't attach an Internet Gateway to this subnet, keeping it secluded.
 - The route table for this subnet doesn't allow direct traffic to and from the internet.
 ## Working with Public and Private Subnets
-Public subnets are great for resources that need to connect to the internet, like web servers. Private subnets are great for resources that you don't want to expose to the internet, like databases.
+Public subnets are great for resources that need to connect to the internet, like web servers. Private subnets are great for resources that we don't want to expose to the internet, like databases.
 
-Understanding public and private subnets helps you to organize and protect your AWS resources better. Always remember, use public subnets for resources that need internet access and private subnets for resources that you want to keep private.
+Understanding public and private subnets helps us to organize and protect our AWS resources better. We always remember, use public subnets for resources that need internet access and private subnets for resources that we want to keep private.
+
+As we have done VPC and then created subnets, the next chapter would talk about internate gateways and routing table.
